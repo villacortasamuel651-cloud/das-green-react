@@ -1,0 +1,18 @@
+:root {
+  --blue: #0b2638;
+  --blue-dark: #061a29;
+
+  --green: #1f8f73;
+  --green-light: #27a987;
+
+  --gold: #c9a227;
+
+  --white: #ffffff;
+  --gray-light: #f7f8f6;
+  --gray: #e9eceb;
+
+  --text: #102333;
+  --text-light: #63717a;
+
+  --container: 1200px;
+}

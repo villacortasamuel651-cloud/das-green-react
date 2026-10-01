@@ -1,0 +1,96 @@
+.booking-section {
+  padding: 90px 0;
+  background: linear-gradient(135deg, #0b2638, #061a29);
+  color: white;
+}
+
+.booking-container {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.booking-content h2 {
+  max-width: 650px;
+  font-size: clamp(32px, 4vw, 50px);
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.booking-content p {
+  max-width: 550px;
+  color: #b7c7ce;
+  font-size: 15px;
+  margin-bottom: 25px;
+}
+
+.calendar-note {
+  display: block;
+  margin-top: 15px;
+  color: #93a6ae;
+  font-size: 12px;
+}
+
+.calendar-visual {
+  display: flex;
+  justify-content: center;
+}
+
+.calendar-card {
+  width: 280px;
+  padding: 30px;
+  border-radius: 15px;
+  background: #f7f8f6;
+  color: var(--text);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+}
+
+.calendar-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.calendar-top span {
+  color: var(--green);
+}
+
+.calendar-icon {
+  text-align: center;
+  font-size: 60px;
+  margin: 25px 0 15px;
+}
+
+.calendar-card p {
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+.calendar-line {
+  height: 8px;
+  background: #dce4e1;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.calendar-line.short {
+  width: 60%;
+  margin-top: 8px;
+}
+
+@media (max-width: 750px) {
+  .booking-container {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+
+  .calendar-visual {
+    justify-content: flex-start;
+  }
+
+  .booking-content h2 {
+    font-size: 34px;
+  }
+}

@@ -1,0 +1,145 @@
+.navbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  color: white;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.navbar.navbar-scrolled {
+  position: fixed;
+  background: rgba(6, 26, 41, 0.94);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.nav-container {
+  width: min(var(--container), calc(100% - 80px));
+  height: 80px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 24px;
+  margin-left: auto;
+  margin-right: 28px;
+}
+
+.nav-menu a {
+  font-size: 13px;
+  color: #d8e1e5;
+  padding: 10px 0;
+  position: relative;
+  transition: color 0.3s;
+}
+
+.nav-menu a:hover,
+.nav-menu a.active {
+  color: white;
+}
+
+.nav-menu a.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 25px;
+  height: 2px;
+  background: var(--green);
+}
+
+.nav-button {
+  border: 1px solid var(--green);
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-size: 13px;
+  white-space: nowrap;
+  transition: 0.3s;
+}
+
+.nav-button:hover {
+  background: var(--green);
+}
+
+.nav-menu-cta {
+  display: none;
+}
+
+.menu-button {
+  display: none;
+  background: transparent;
+  color: white;
+  border: none;
+  font-size: 26px;
+  cursor: pointer;
+  padding: 6px 4px;
+}
+
+/* Tablet y móvil: menú desplegable */
+@media (max-width: 1024px) {
+  .nav-container {
+    width: calc(100% - 48px);
+    height: 72px;
+  }
+
+  .nav-menu {
+    position: absolute;
+    top: 72px;
+    left: 24px;
+    right: 24px;
+    background: var(--blue-dark);
+    padding: 16px 20px 20px;
+    flex-direction: column;
+    gap: 2px;
+    margin: 0;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    display: none;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .nav-menu.show {
+    display: flex;
+  }
+
+  .nav-menu a {
+    font-size: 15px;
+    padding: 13px 4px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .nav-menu a.active::after {
+    display: none;
+  }
+
+  .nav-menu a.active {
+    color: var(--green-light);
+  }
+
+  .nav-menu .nav-menu-cta {
+    display: block;
+    margin-top: 14px;
+    text-align: center;
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 13px;
+    font-weight: 600;
+  }
+
+  .nav-button {
+    display: none;
+  }
+
+  .menu-button {
+    display: block;
+    margin-left: auto;
+  }
+}

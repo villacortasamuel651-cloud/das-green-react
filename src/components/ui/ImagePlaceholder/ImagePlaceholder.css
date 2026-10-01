@@ -1,0 +1,35 @@
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1b3445, #0a202f);
+  color: #81939d;
+  letter-spacing: 2px;
+  font-size: 13px;
+  position: relative;
+}
+
+.image-placeholder.light {
+  background: linear-gradient(135deg, #e4e9e8, #cbd4d2);
+  color: #65716f;
+}
+
+.image-placeholder::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(6, 26, 41, 0.35), transparent);
+}
+
+.image-placeholder span {
+  position: relative;
+  z-index: 1;
+}
+
+.media-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
