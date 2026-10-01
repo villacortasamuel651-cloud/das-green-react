@@ -1,22 +1,29 @@
 export const testimonialsSection = {
   label: "TESTIMONIOS",
-  title: "Lo que dicen quienes han compartido el camino.",
+  title: "Lo que dicen quienes han compartido el camino",
 };
+
+import t1 from "../assets/images/testimonios/t1.jpg";
+import t2 from "../assets/images/testimonios/t2.jpg";
+import t3 from "../assets/images/testimonios/t3.jpg";
 
 export const testimonials = [
   {
-    name: "Nombre del cliente",
-    role: "Cargo / Empresa",
-    text: "Una experiencia profesional basada en liderazgo, compromiso y una visión clara para alcanzar los objetivos.",
+    name: "María González",
+    role: "CEO / TechStart",
+    text: "La consultoría de Alex transformó completamente nuestra estrategia digital. Resultados medibles desde el primer trimestre.",
+    image: t1,
   },
   {
-    name: "Nombre del cliente",
-    role: "Cargo / Empresa",
+    name: "Valerian Aliaga",
+    role: "CEO / OCYTEC",
     text: "Su capacidad para liderar equipos y convertir ideas en resultados genera un verdadero valor.",
+    image: t2,
   },
   {
-    name: "Nombre del cliente",
-    role: "Cargo / Empresa",
+    name: "Andrea Melo",
+    role: "Founder / Breakout",
     text: "Profesionalismo, estrategia y una excelente capacidad para generar nuevas oportunidades.",
+    image: t3,
   },
 ];
