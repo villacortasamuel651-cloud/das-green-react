@@ -1,4 +1,6 @@
 import hero1 from "../assets/images/hero/hero.jpg";
+import hero2 from "../assets/images/hero/vision.jpg";
+import hero3 from "../assets/images/hero/team.jpg";
 
 export const heroSlides = [
   {
@@ -15,7 +17,7 @@ export const heroSlides = [
     highlight: "QUE TRANSFORMA",
     text: "Estrategia, innovación y liderazgo orientados a crear nuevas oportunidades.",
     cta: { label: "Ver trayectoria", href: "#trayectoria" },
-    image: null,
+    image: hero2,
   },
   {
     eyebrow: "EXPERIENCIA · RESULTADOS · EQUIPO",
@@ -23,6 +25,6 @@ export const heroSlides = [
     highlight: "QUE GENERA VALOR",
     text: "Construyendo equipos, proyectos y soluciones que generan resultados sostenibles.",
     cta: { label: "Conocer experiencia", href: "#experiencia" },
-    image: null,
+    image: hero3,
   },
 ];

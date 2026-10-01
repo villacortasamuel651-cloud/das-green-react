@@ -1,4 +1,7 @@
 // import expo1 from "../assets/images/exposiciones/expo-1.jpg";
+import expo1 from "../assets/images/exhibitions/hult-prize.jpg";
+import expo2 from "../assets/images/exhibitions/speaker.jpg";
+import expo3 from "../assets/images/exhibitions/panel.jpg";
 
 export const exhibitionsSection = {
   label: "EXPOSICIONES",
@@ -13,7 +16,7 @@ export const exhibitions = [
     title: "Liderazgo para nuevos desafíos",
     description: "Descripción breve de la exposición o conferencia.",
     url: "#",
-    image: null, // expo1
+    image: expo1,
   },
   {
     type: "EVENTO",
@@ -21,7 +24,7 @@ export const exhibitions = [
     title: "Innovación y crecimiento",
     description: "Descripción breve de la exposición o conferencia.",
     url: "#",
-    image: null,
+    image: expo2,
   },
   {
     type: "PANEL",
@@ -29,6 +32,6 @@ export const exhibitions = [
     title: "Gestión y estrategia empresarial",
     description: "Descripción breve de la exposición o conferencia.",
     url: "#",
-    image: null,
+    image: expo3,
   },
 ];

@@ -74,3 +74,35 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Ajusta el encuadre de las fotos de exposiciones */
+.exhibition-image {
+  height: 250px;
+  overflow: hidden;
+}
+
+.exhibition-image .media-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* La tercera foto es un panel: bajamos el encuadre para mostrar a sus participantes */
+.exhibitions-grid .exhibition-card:nth-child(3) .media-img {
+  object-position: center 60%;
+}
+
+/* Muestra más el rostro en las dos fotos verticales */
+.exhibitions-grid .exhibition-card:nth-child(1) .media-img {
+  object-position: center 34%;
+}
+
+.exhibitions-grid .exhibition-card:nth-child(2) .media-img {
+  object-position: center 8%;
+}
+
+/* Mantiene el foco en los participantes del panel */
+.exhibitions-grid .exhibition-card:nth-child(3) .media-img {
+  object-position: center 60%;
+}

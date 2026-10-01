@@ -1,7 +1,8 @@
 // import aboutImg from "../assets/images/about/perfil.jpg";
+import aboutImg from "../assets/images/about/profile.jpg";
 
 export const about = {
-  image: null, // aboutImg
+  image: aboutImg,
   label: "SOBRE MÍ",
   title: "Una trayectoria construida sobre experiencia, visión y resultados.",
   paragraphs: [
