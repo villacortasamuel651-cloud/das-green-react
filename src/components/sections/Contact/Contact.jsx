@@ -107,7 +107,10 @@ export default function Contact() {
               {status !== "sending" && <span>→</span>}
             </button>
 
-            <p className="form-note">Tus datos se usarán únicamente para responder tu consulta.</p>
+            <p className="form-note">
+              Tus datos se usarán únicamente para responder tu consulta.{" "}
+              <a href="#privacidad" className="form-link">Política de privacidad</a>
+            </p>
 
             {status === "success" && (
               <p className="form-status success" role="status">

@@ -1,0 +1,67 @@
+.ui-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(6, 26, 41, 0.72);
+  backdrop-filter: blur(4px);
+  animation: uiModalFade 0.25s ease both;
+}
+
+.ui-modal {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+  animation: uiModalIn 0.35s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.ui-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 5;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(6, 26, 41, 0.75);
+  color: white;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.ui-modal-close:hover {
+  background: var(--green);
+}
+
+@keyframes uiModalFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes uiModalIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 750px) {
+  .ui-modal-overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .ui-modal {
+    max-height: 92vh;
+    border-radius: 14px 14px 0 0;
+  }
+}

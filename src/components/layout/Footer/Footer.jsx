@@ -20,8 +20,10 @@ export default function Footer() {
       </div>
 
       <div className="copyright">
-        © {new Date().getFullYear()} {site.brand.main} {site.brand.sub}. Todos los derechos reservados.
-      </div>
-    </footer>
+  © {new Date().getFullYear()} {site.brand.main} {site.brand.sub}. Todos los derechos reservados.
+      <span aria-hidden="true"> · </span>
+      <a href="#privacidad">Política de privacidad</a>
+  </div>
+      </footer>
   );
 }

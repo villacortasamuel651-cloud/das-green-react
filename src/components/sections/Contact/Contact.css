@@ -212,4 +212,11 @@ a.contact-item:hover strong {
   .form-submit {
     align-self: stretch;
   }
+
+
+  .form-link {
+  color: var(--green);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
 }

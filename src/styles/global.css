@@ -86,6 +86,29 @@ html {
   .reveal {
     opacity: 1;
   }
+
+.section-label {
+  display: block;
+  color: var(--green);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  position: relative;
+  padding-left: 30px;
+}
+
+.section-label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 20px;
+  height: 2px;
+  background: var(--green);
+  transform: translateY(-50%);
+}
+
 }
 
 

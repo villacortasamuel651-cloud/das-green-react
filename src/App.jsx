@@ -17,6 +17,8 @@ import Booking from "./components/sections/Booking/Booking";
 import Quote from "./components/sections/Quote/Quote";
 import Contact from "./components/sections/Contact/Contact";
 import WhatsAppButton from "./components/ui/WhatsAppButton/WhatsAppButton";
+import PrivacyPolicy from "./components/layout/PrivacyPolicy/PrivacyPolicy";
+
 
 
 export default function App() {
@@ -44,7 +46,7 @@ export default function App() {
       </main>
       <Footer />
       <WhatsAppButton />
-
+      <PrivacyPolicy />
     </div>
   );
 }

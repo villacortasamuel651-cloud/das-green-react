@@ -1,23 +1,26 @@
 import { site } from "../../../config/site";
+import { bookingCard } from "../../../data/booking";
 import Button from "../../ui/Button/Button";
+import Reveal from "../../ui/Reveal/Reveal";
 import "./Booking.css";
 
 export default function Booking() {
   const handleClick = (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!site.calendarUrl) {
-    document.getElementById("contacto")?.scrollIntoView({ behavior: "smooth" });
-    return;
-  }
+    // Sin enlace de calendario todavía: lleva al formulario de contacto
+    if (!site.calendarUrl) {
+      document.getElementById("contacto")?.scrollIntoView({ behavior: "smooth" });
+      return;
+    }
 
-  window.open(site.calendarUrl, "_blank", "noopener,noreferrer");
-};
+    window.open(site.calendarUrl, "_blank", "noopener,noreferrer");
+  };
 
   return (
     <section className="booking-section" id="agendar">
       <div className="container booking-container">
-        <div className="booking-content">
+        <Reveal className="booking-content">
           <span className="section-label">AGENDEMOS UNA REUNIÓN</span>
 
           <h2>¿Hablamos sobre tu próximo proyecto?</h2>
@@ -32,25 +35,27 @@ export default function Booking() {
           </Button>
 
           <small className="calendar-note">
-                Elige un horario disponible y recibirás la invitación por correo.
-        </small>
-        </div>
+            Elige un horario disponible y recibirás la invitación por correo.
+          </small>
+        </Reveal>
 
-        <div className="calendar-visual">
+        <Reveal className="calendar-visual" delay={150}>
           <div className="calendar-card">
-            <div className="calendar-top">
-              <span>GOOGLE</span>
-              <strong>CALENDAR</strong>
-            </div>
+            <span className="calendar-eyebrow">{bookingCard.eyebrow}</span>
+            <h3>{bookingCard.title}</h3>
 
-            <div className="calendar-icon">📅</div>
+            <ul className="calendar-details">
+              {bookingCard.details.map((d) => (
+                <li key={d.label}>
+                  <span>{d.label}</span>
+                  <strong>{d.value}</strong>
+                </li>
+              ))}
+            </ul>
 
-            <p>Reserva un espacio para conversar.</p>
-
-            <div className="calendar-line" />
-            <div className="calendar-line short" />
+            <p className="calendar-foot">{bookingCard.footer}</p>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

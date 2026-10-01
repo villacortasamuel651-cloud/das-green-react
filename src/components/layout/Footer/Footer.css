@@ -45,4 +45,16 @@
     text-align: center;
     padding: 12px 20px;
   }
+.copyright a {
+  color: #b8c5ca;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.copyright a:hover {
+  color: white;
+}
+
+
+
 }
