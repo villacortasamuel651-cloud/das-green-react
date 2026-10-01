@@ -1,5 +1,8 @@
 // import curso1 from "../assets/images/cursos/curso-1.jpg";
-
+import c1 from "../assets/images/cursos/c1.jpg"; 
+import c2 from "../assets/images/cursos/c2.jpg";
+import c3 from "../assets/images/cursos/c3.jpg";
+import c4 from "../assets/images/cursos/c4.jpg";
 export const coursesSection = {
   label: "CURSOS",
   title: "Aprende y desarrolla nuevas habilidades.",
@@ -43,7 +46,7 @@ export const courses = [
     ],
     audience: "Profesionales que inician en roles de coordinación o jefatura.",
     enrollUrl: "",
-    image: null,
+    image: c2,
   },
   {
     id: "introduccion-gestion",
@@ -69,7 +72,7 @@ export const courses = [
     ],
     audience: "Emprendedores y profesionales que quieren ordenar su forma de trabajar.",
     enrollUrl: "",
-    image: null,
+    image: c3,
   },
   {
     id: "gestion-estrategica",
@@ -99,7 +102,7 @@ export const courses = [
     audience: "Gerentes, líderes de área y dueños de negocio.",
     price: 149,
     enrollUrl: "",
-    image: null,
+    image: c1,
   },
   {
     id: "liderazgo-desarrollo",
@@ -126,6 +129,6 @@ export const courses = [
     audience: "Líderes con experiencia que quieren dar el siguiente paso.",
     price: 199,
     enrollUrl: "",
-    image: null,
+    image: c4,
   },
 ];
