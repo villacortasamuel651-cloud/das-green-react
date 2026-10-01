@@ -8,30 +8,38 @@ export default function Testimonials() {
   return (
     <section className="testimonials" id="testimonios">
       <div className="container">
-        <div className="testimonial-header">
-          <span className="section-label">{testimonialsSection.label}</span>
-          <h2>{testimonialsSection.title}</h2>
-        </div>
+      <div className="testimonial-header">
+  <span className="section-label">{testimonialsSection.label}</span>
+  <h2 className="testimonial-title">
+    Lo que dicen <span className="highlight">quienes han compartido</span> el camino
+  </h2>
+</div>
 
-        <div className="testimonial-slider" onMouseEnter={pause} onMouseLeave={resume}>
+        {/* Carrusel tipo D’Leche & Miel */}
+        <div
+          className="snap-carousel testimonial-grid"
+          onMouseEnter={pause}
+          onMouseLeave={resume}
+        >
           {testimonials.map((t, i) => (
-            <article
+            <figure
               key={t.text}
               className={`testimonial ${i === index ? "active" : ""}`}
               aria-hidden={i !== index}
             >
-              <span className="quote-symbol">“</span>
+              <img src={t.image} alt={t.name} className="testimonial-img" />
 
-              <p className="testimonial-text">{t.text}</p>
-
-              <div className="testimonial-author">
-                <div className="testimonial-avatar">{t.name.charAt(0)}</div>
-                <div>
-                  <strong>{t.name}</strong>
-                  <span>{t.role}</span>
+              <figcaption className="testimonial-content">
+                <p className="testimonial-text">{t.text}</p>
+                <div className="testimonial-author">
+                  <div className="testimonial-avatar">{t.name.charAt(0)}</div>
+                  <div>
+                    <strong>{t.name}</strong>
+                    <span>{t.role}</span>
+                  </div>
                 </div>
-              </div>
-            </article>
+              </figcaption>
+            </figure>
           ))}
         </div>
 
