@@ -17,6 +17,16 @@ export const exhibitions = [
     description: "Descripción breve de la exposición o conferencia.",
     url: "#",
     image: expo1,
+    detail: {
+      place: "Lima, Perú",
+      modality: "Presencial",
+      summary: "Una conferencia pensada para quienes lideran equipos en contextos de cambio.",
+      paragraphs: [
+        "Texto de ejemplo: describe aquí de qué trató la exposición, el público al que se dirigió y el mensaje principal.",
+        "Texto de ejemplo: agrega los aprendizajes o conclusiones que se compartieron con los asistentes.",
+      ],
+      tags: ["Liderazgo", "Equipos", "Cambio"],
+    },
   },
   {
     type: "EVENTO",
@@ -25,6 +35,16 @@ export const exhibitions = [
     description: "Descripción breve de la exposición o conferencia.",
     url: "#",
     image: expo2,
+    detail: {
+      place: "Lima, Perú",
+      modality: "Presencial",
+      summary: "Un espacio para conversar sobre innovación y nuevas oportunidades de crecimiento.",
+      paragraphs: [
+        "Texto de ejemplo: describe aquí el evento, quiénes participaron y cuál fue tu aporte.",
+        "Texto de ejemplo: cuenta qué ideas se discutieron y qué resultados dejó la experiencia.",
+      ],
+      tags: ["Innovación", "Crecimiento", "Emprendimiento"],
+    },
   },
   {
     type: "PANEL",
@@ -33,5 +53,15 @@ export const exhibitions = [
     description: "Descripción breve de la exposición o conferencia.",
     url: "#",
     image: expo3,
+    detail: {
+      place: "Lima, Perú",
+      modality: "Presencial",
+      summary: "Un panel sobre gestión y estrategia con enfoque empresarial.",
+      paragraphs: [
+        "Texto de ejemplo: describe aquí el panel, los temas tratados y el rol que tuviste.",
+        "Texto de ejemplo: resume las ideas clave que se llevó el público.",
+      ],
+      tags: ["Gestión", "Estrategia", "Empresas"],
+    },
   },
 ];
