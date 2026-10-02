@@ -1,9 +1,15 @@
+import { useCallback, useState } from "react";
 import { exhibitions, exhibitionsSection } from "../../../data/exhibitions";
 import SectionHeader from "../../ui/SectionHeader/SectionHeader";
 import ImagePlaceholder from "../../ui/ImagePlaceholder/ImagePlaceholder";
 import "./Exhibitions.css";
 import Reveal from "../../ui/Reveal/Reveal";
+import ExhibitionModal from "./ExhibitionModal";
+
 export default function Exhibitions() {
+  const [active, setActive] = useState(null);
+  const closeModal = useCallback(() => setActive(null), []);
+
   return (
     <section className="exhibitions" id="exposiciones">
       <div className="container">
@@ -25,12 +31,17 @@ export default function Exhibitions() {
                 <span className="card-date">{item.year}</span>
                 <h3>{item.title}</h3>
                 <p>{item.description}</p>
-                <a href={item.url}>Ver exposición →</a>
+                <button type="button" className="exhibition-link" onClick={() => setActive(item)}>
+                  Ver exposición →
+                </button>
               </div>
             </Reveal>
           ))}
         </div>
       </div>
+
+      {active && <ExhibitionModal item={active} onClose={closeModal} />}
     </section>
   );
 }
+s
