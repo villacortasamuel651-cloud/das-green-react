@@ -1,10 +1,27 @@
 import { heroSlides } from "../../../data/hero";
-import useSlider from "../../../hooks/useSlider";
 import Button from "../../ui/Button/Button";
 import ImagePlaceholder from "../../ui/ImagePlaceholder/ImagePlaceholder";
 import "./Hero.css";
+import { heroSlides as localSlides } from "../../../data/hero";
+import useContent from "../../../hooks/useContent";
+import useSlider from "../../../hooks/useSlider";
 
 export default function Hero() {
+  const content = useContent("hero");
+
+  // Textos desde Firebase; imagen y href siempre desde el archivo local
+  const heroSlides = localSlides.map((base, i) => {
+    const remote = content?.slides?.[i] ?? {};
+    return {
+      ...base,
+      eyebrow: remote.eyebrow ?? base.eyebrow,
+      title: remote.title ?? base.title,
+      highlight: remote.highlight ?? base.highlight,
+      text: remote.text ?? base.text,
+      cta: { ...base.cta, label: remote.ctaLabel ?? base.cta.label },
+    };
+  });
+
   const { index, next, prev, goTo, pause, resume } = useSlider(heroSlides.length);
 
   return (
