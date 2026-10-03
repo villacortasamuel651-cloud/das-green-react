@@ -44,4 +44,4 @@ export default function Exhibitions() {
     </section>
   );
 }
-s
+
