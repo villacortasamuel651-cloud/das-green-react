@@ -1,0 +1,1 @@
+export const priceLabel = (course) => (course.type === "free" ? "GRATIS" : `S/ ${course.price}`);

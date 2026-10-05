@@ -1,0 +1,35 @@
+.section-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: end;
+  margin-bottom: 55px;
+}
+
+.section-header.dark {
+  color: var(--white);
+}
+
+.section-header h2 {
+  font-size: clamp(28px, 3vw, 42px);
+  line-height: 1.15;
+  font-weight: 700;
+}
+
+.section-header p {
+  max-width: 470px;
+  font-size: 15px;
+  color: var(--text-light);
+}
+
+.section-header.dark p {
+  color: #c7d1d6;
+}
+
+@media (max-width: 750px) {
+  .section-header {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-bottom: 35px;
+  }
+}

@@ -1,0 +1,33 @@
+.primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  width: fit-content;
+  padding: 13px 22px;
+  border-radius: 30px;
+  background: var(--green);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.primary-button:hover {
+  background: var(--green-light);
+  transform: translateY(-2px);
+}
+
+.primary-button span {
+  font-size: 18px;
+
+
+.primary-button span {
+  transition: transform 0.3s;
+}
+
+.primary-button:hover span {
+  transform: translateX(5px);
+}
+
+}

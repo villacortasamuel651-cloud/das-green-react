@@ -1,0 +1,78 @@
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--blue-dark);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  border-bottom: 2px solid var(--gold);
+  transition: transform 0.9s cubic-bezier(0.77, 0, 0.18, 1);
+}
+
+.preloader.hide {
+  transform: translateY(-100%);
+}
+
+.preloader-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  animation: brandIn 1s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.preloader-brand span {
+  font-size: 56px;
+  letter-spacing: 6px;
+  font-weight: 500;
+}
+
+.preloader-brand small {
+  font-size: 14px;
+  letter-spacing: 12px;
+  margin-top: 10px;
+  margin-right: -12px;
+  color: var(--green-light);
+}
+
+.preloader-line {
+  width: 140px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.preloader-line i {
+  display: block;
+  height: 100%;
+  background: var(--green);
+  transform-origin: left;
+  animation: lineFill 1.6s cubic-bezier(0.65, 0, 0.35, 1) 0.2s both;
+}
+
+@keyframes brandIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+    letter-spacing: 14px;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    letter-spacing: 6px;
+  }
+}
+
+@keyframes lineFill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

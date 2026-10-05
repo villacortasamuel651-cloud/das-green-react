@@ -1,0 +1,18 @@
+.logo {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.logo span {
+  font-size: 25px;
+  letter-spacing: 2px;
+  font-weight: 500;
+}
+
+.logo small {
+  font-size: 11px;
+  letter-spacing: 5px;
+  margin-left: 5px;
+  margin-top: 4px;
+}

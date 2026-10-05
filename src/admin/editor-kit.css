@@ -1,0 +1,129 @@
+/* =====================================================
+   KIT DE EDITORES · ListEditor / ObjectEditor / FieldInput
+   Usa el mismo prefijo admin- que admin.css para no afectar la landing.
+   ===================================================== */
+
+/* Cada elemento de una lista (los números los pone admin.css) */
+.admin-item { margin: 18px 0; }
+
+.admin-item legend { max-width: 100%; }
+
+.admin-field { margin: 0; }
+
+/* Casilla (checkbox) como fila clicable */
+.admin-card .admin-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 0 6px;
+  padding: 11px 14px;
+  border: 1px solid #cfd8d6;
+  border-radius: 10px;
+  background: #fff;
+  color: var(--blue, #0b2638);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-card .admin-check:hover { border-color: var(--green, #1f8f73); }
+
+.admin-card .admin-check input {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  accent-color: var(--green, #1f8f73);
+  box-shadow: none;
+}
+
+/* Acciones */
+.admin-item-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.admin-page .admin-item-actions button { margin-top: 0; padding: 9px 16px; }
+
+/* Botones secundarios: subir, bajar, agregar */
+.admin-page .admin-item-actions button {
+  border: 1px solid #cfd8d6;
+  background: #fff;
+  color: var(--blue, #0b2638);
+}
+
+.admin-page .admin-item-actions button:hover:not(:disabled) {
+  border-color: var(--green, #1f8f73);
+  background: #eaf6f2;
+  color: var(--green, #1f8f73);
+}
+
+/* Eliminar */
+.admin-page .admin-item-actions button.danger {
+  margin-left: auto;
+  border-color: #efc4be;
+  background: #fff;
+  color: #c0392b;
+}
+
+.admin-page .admin-item-actions button.danger:hover:not(:disabled) {
+  border-color: #c0392b;
+  background: #c0392b;
+  color: #fff;
+}
+
+.admin-page .admin-item-actions button:disabled { opacity: 0.4; cursor: default; }
+
+/* Barra inferior de la tarjeta: queda a la vista al editar listas largas */
+.admin-card > .admin-item-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  margin: 22px -4px 0;
+  padding: 14px 4px 4px;
+  border-top: 1px solid #e6ecea;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.92), #fff);
+}
+
+/* Botón principal (Guardar cambios) */
+.admin-page .admin-card > .admin-item-actions button:last-of-type {
+  border-color: var(--green, #1f8f73);
+  background: var(--green, #1f8f73);
+  color: #fff;
+  padding: 10px 24px;
+}
+
+.admin-page .admin-card > .admin-item-actions button:last-of-type:hover:not(:disabled) {
+  border-color: var(--green-light, #27a987);
+  background: var(--green-light, #27a987);
+  color: #fff;
+}
+
+/* Estado de guardado */
+.admin-status { margin-left: 4px; }
+
+.admin-status.ok,
+.admin-status.error {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.admin-status.ok { background: #e3f5ee; color: #1f8a5b; }
+.admin-status.error { background: #fdecea; color: #c0392b; }
+
+@media (max-width: 640px) {
+  .admin-page .admin-item-actions button.danger { margin-left: 0; }
+
+  /* En celular la barra no se queda fija para no tapar el formulario */
+  .admin-card > .admin-item-actions {
+    position: static;
+    margin: 22px 0 0;
+    padding: 14px 0 0;
+    background: none;
+  }
+}

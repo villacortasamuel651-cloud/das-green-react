@@ -1,0 +1,67 @@
+.whatsapp-button {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 150;
+  display: flex;
+  align-items: center;
+  height: 56px;
+  padding: 0 16px;
+  border-radius: 30px;
+  background: var(--green);
+  color: white;
+  box-shadow: 0 10px 30px rgba(6, 26, 41, 0.3);
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: opacity 0.4s, transform 0.4s, background 0.3s;
+}
+
+.whatsapp-button.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.whatsapp-button:hover {
+  background: var(--green-light);
+}
+
+.whatsapp-button svg {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+/* Los puntos del ícono toman el color del botón */
+.whatsapp-button circle {
+  fill: var(--green);
+  transition: fill 0.3s;
+}
+
+.whatsapp-button:hover circle {
+  fill: var(--green-light);
+}
+
+/* En escritorio, al pasar el mouse se despliega el texto */
+.whatsapp-button span {
+  max-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 600;
+  transition: max-width 0.4s, margin 0.4s;
+}
+
+.whatsapp-button:hover span,
+.whatsapp-button:focus-visible span {
+  max-width: 140px;
+  margin-left: 10px;
+}
+
+@media (max-width: 750px) {
+  .whatsapp-button {
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  }
+}

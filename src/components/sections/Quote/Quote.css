@@ -1,0 +1,27 @@
+.quote-section {
+  min-height: 320px;
+  background: rgba(6, 26, 41, 0.97);
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+.quote-content {
+  position: relative;
+  padding-left: 30px;
+}
+
+.quote-content blockquote {
+  font-size: clamp(22px, 3vw, 34px);
+  line-height: 1.35;
+  max-width: 800px;
+  font-weight: 400;
+}
+
+.quote-content cite {
+  display: block;
+  margin-top: 20px;
+  color: #b4c3c8;
+  font-size: 13px;
+  font-style: normal;
+}
