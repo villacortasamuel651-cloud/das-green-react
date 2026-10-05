@@ -6,6 +6,7 @@ import AboutEditor from "./AboutEditor";
 import TimelineEditor from "./TimelineEditor";
 import ExperienceEditor from "./ExperienceEditor";
 import ExhibitionsEditor from "./ExhibitionsEditor";
+import GalleryEditor from "./GalleryEditor";
 import NewsEditor from "./NewsEditor";
 import CoursesEditor from "./CoursesEditor";
 import TestimonialsEditor from "./TestimonialsEditor";
@@ -14,13 +15,13 @@ import BookingEditor from "./BookingEditor";
 import ContactEditor from "./ContactEditor";
 import "./admin.css";
 
-// Una línea por sección. Cada integrante agrega la suya.
 const EDITORS = [
   { id: "hero", label: "Inicio", Component: HeroEditor },
   { id: "about", label: "Sobre mí", Component: AboutEditor },
   { id: "timeline", label: "Trayectoria", Component: TimelineEditor },
   { id: "experience", label: "Experiencia", Component: ExperienceEditor },
   { id: "exhibitions", label: "Exposiciones", Component: ExhibitionsEditor },
+  { id: "gallery", label: "Galería", Component: GalleryEditor },
   { id: "news", label: "Noticias", Component: NewsEditor },
   { id: "courses", label: "Cursos", Component: CoursesEditor },
   { id: "testimonials", label: "Testimonios", Component: TestimonialsEditor },
@@ -31,26 +32,30 @@ const EDITORS = [
 
 export default function Dashboard() {
   const [active, setActive] = useState(EDITORS[0].id);
-  const { Component } = EDITORS.find((e) => e.id === active);
+  const { Component } = EDITORS.find((editor) => editor.id === active);
 
   return (
     <div className="admin-page">
       <header className="admin-header">
         <h1>Panel de administración</h1>
+
         <div>
           <a href="#/">Ver página</a>
-          <button onClick={() => signOut(auth)}>Cerrar sesión</button>
+          <button type="button" onClick={() => signOut(auth)}>
+            Cerrar sesión
+          </button>
         </div>
       </header>
 
       <nav className="admin-tabs">
-        {EDITORS.map((e) => (
+        {EDITORS.map((editor) => (
           <button
-            key={e.id}
-            className={e.id === active ? "active" : ""}
-            onClick={() => setActive(e.id)}
+            key={editor.id}
+            type="button"
+            className={editor.id === active ? "active" : ""}
+            onClick={() => setActive(editor.id)}
           >
-            {e.label}
+            {editor.label}
           </button>
         ))}
       </nav>
