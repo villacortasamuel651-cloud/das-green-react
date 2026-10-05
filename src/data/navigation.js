@@ -3,6 +3,7 @@ export const navLinks = [
   { href: "#sobre-mi", label: "Sobre mí" },
   { href: "#trayectoria", label: "Trayectoria" },
   { href: "#exposiciones", label: "Exposiciones" },
+  { href: "#galeria", label: "Galería" },
   { href: "#testimonios", label: "Testimonios" },
   { href: "#experiencia", label: "Experiencia" },
   { href: "#noticias", label: "Noticias" },

@@ -18,6 +18,7 @@ import Quote from "./components/sections/Quote/Quote";
 import Contact from "./components/sections/Contact/Contact";
 import WhatsAppButton from "./components/ui/WhatsAppButton/WhatsAppButton";
 import PrivacyPolicy from "./components/layout/PrivacyPolicy/PrivacyPolicy";
+import Gallery from "./components/sections/Gallery/Gallery";
 
 
 
@@ -38,6 +39,7 @@ export default function App() {
         <Exhibitions />
         <Experience />
         <News />
+        <Gallery />
         <Testimonials />
         <Courses />
         <Booking />

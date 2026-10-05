@@ -1,0 +1,115 @@
+.gallery-section {
+  padding: 85px 0;
+  background: #f6f9f8;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.gallery-item {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 260px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--blue-dark);
+}
+
+.gallery-item .media-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.gallery-item:hover .media-img {
+  transform: scale(1.06);
+}
+
+.gallery-overlay {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 18px;
+  text-align: left;
+  color: white;
+  background: linear-gradient(transparent, rgba(6, 26, 41, 0.85));
+  opacity: 0;
+  transform: translateY(8px);
+  transition: 0.3s;
+}
+
+.gallery-item:hover .gallery-overlay,
+.gallery-item:focus-visible .gallery-overlay {
+  opacity: 1;
+  transform: none;
+}
+
+.gallery-viewer-image {
+  height: 420px;
+  background: var(--blue-dark);
+}
+
+.gallery-viewer-image .media-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.gallery-viewer-info {
+  padding: 24px clamp(22px, 5vw, 40px) 30px;
+}
+
+.gallery-viewer-info h2 {
+  margin: 0 0 6px;
+  color: var(--text);
+  font-size: 24px;
+}
+
+.gallery-viewer-info p {
+  margin: 0 0 18px;
+  color: #51616b;
+}
+
+.gallery-nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 13px;
+  color: var(--text-light);
+}
+
+.gallery-nav button {
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--green);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.gallery-nav button:hover {
+  background: var(--green-light);
+}
+
+@media (max-width: 900px) {
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 750px) {
+  .gallery-grid { grid-template-columns: 1fr; }
+  .gallery-item { height: 220px; }
+  .gallery-viewer-image { height: 260px; }
+}
