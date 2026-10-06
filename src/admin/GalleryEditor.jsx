@@ -11,10 +11,22 @@ const HEADER_FIELDS = [
 const FIELDS = [
   {
     key: "image",
-    label: "Ruta de la imagen (ej. /images/gallery/foto-1.jpg)",
+    label: "Imagen",
+    type: "image",
+    uploadOptions: {
+      folder: "gallery",
+      maxWidth: 1600,
+      aspect: 4 / 3,
+    },
   },
-  { key: "title", label: "Título de la foto" },
-  { key: "caption", label: "Descripción corta" },
+  {
+    key: "title",
+    label: "Título de la foto",
+  },
+  {
+    key: "caption",
+    label: "Descripción corta",
+  },
 ];
 
 export default function GalleryEditor() {

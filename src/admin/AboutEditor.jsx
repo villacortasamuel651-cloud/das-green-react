@@ -2,6 +2,16 @@ import ObjectEditor from "./ObjectEditor";
 import { aboutEditable } from "../data/about";
 
 const FIELDS = [
+  {
+    key: "image",
+    label: "Imagen de perfil",
+    type: "image",
+    uploadOptions: {
+      folder: "about",
+      maxWidth: 1200,
+      aspect: 4 / 5,
+    },
+  },
   { key: "label", label: "Etiqueta superior" },
   { key: "title", label: "Título" },
   { key: "p1", label: "Primer párrafo", type: "textarea" },

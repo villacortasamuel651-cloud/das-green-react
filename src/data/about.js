@@ -31,17 +31,31 @@ export const aboutEditable = {
 };
 
 // Mezcla lo guardado en Firebase con los datos locales (imagen e iconos siempre locales)
+
 export const mergeAbout = (base, remote) => {
   if (!remote) return base;
+
   return {
     ...base,
+
+    image: remote.image ?? base.image,
+
     label: remote.label ?? base.label,
+
     title: remote.title ?? base.title,
-    paragraphs: [remote.p1 ?? base.paragraphs[0], remote.p2 ?? base.paragraphs[1]].filter(Boolean),
+
+    paragraphs: [
+      remote.p1 ?? base.paragraphs[0],
+      remote.p2 ?? base.paragraphs[1],
+    ].filter(Boolean),
+
     stats: base.stats.map((s, i) => ({
       ...s,
-      value: remote[`s${i + 1}Value`] ?? s.value,
-      label: remote[`s${i + 1}Label`] ?? s.label,
+      value:
+        remote[`s${i + 1}Value`] ?? s.value,
+      label:
+        remote[`s${i + 1}Label`] ?? s.label,
     })),
   };
 };
+

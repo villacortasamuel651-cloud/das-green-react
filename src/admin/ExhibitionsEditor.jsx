@@ -9,6 +9,16 @@ const HEADER_FIELDS = [
 ];
 
 const FIELDS = [
+  {
+    key: "image",
+    label: "Imagen de la exposición",
+    type: "image",
+    uploadOptions: {
+      folder: "exhibitions",
+      maxWidth: 1600,
+      aspect: 16 / 10,
+    },
+  },
   { key: "type", label: "Tipo (ej. CONFERENCIA)" },
   { key: "year", label: "Año" },
   { key: "title", label: "Título" },
