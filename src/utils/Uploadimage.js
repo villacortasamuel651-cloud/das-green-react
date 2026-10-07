@@ -1,21 +1,9 @@
-function blobToDataUrl(blob) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-
-    reader.onloadend = () => resolve(reader.result);
-    reader.onerror = () =>
-      reject(new Error("No se pudo convertir la imagen."));
-
-    reader.readAsDataURL(blob);
-  });
-}
-
 async function prepareImage(
   file,
   {
     maxWidth = 800,
     aspect,
-    quality = 0.68,
+    quality = 0.82,
   } = {}
 ) {
   const bitmap = await createImageBitmap(file, {
@@ -80,7 +68,7 @@ async function prepareImage(
 
         resolve(blob);
       },
-      "image/jpeg",
+      "image/webp",
       quality
     );
   });
@@ -92,11 +80,10 @@ export async function uploadImage(
     folder = "general",
     maxWidth = 800,
     aspect,
-    quality = 0.68,
+    quality = 0.82,
   } = {}
 ) {
   // folder se mantiene para no romper los editores existentes.
-  // Ya no se utiliza porque no estamos usando Firebase Storage.
   void folder;
 
   if (!file) {
@@ -107,21 +94,25 @@ export async function uploadImage(
     throw new Error("El archivo debe ser una imagen.");
   }
 
-  const blob = await prepareImage(file, {
-    maxWidth,
-    aspect,
-    quality,
-  });
+  const blob = await prepareImage(file, { maxWidth, aspect, quality });
+  const body = new FormData();
+  body.append("kind", "image");
+  body.append("file", blob, `${file.name.replace(/\.[^.]+$/, "")}.webp`);
+  const response = await fetch("/api/media", { method: "POST", credentials: "include", body });
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(result.error || "No se pudo guardar la imagen.");
+  return result.url;
+}
 
-  // Límite preventivo para evitar imágenes demasiado grandes.
-  // 250 KB por imagen como primera protección.
-  const MAX_BYTES = 250 * 1024;
-
-  if (blob.size > MAX_BYTES) {
-    throw new Error(
-      "La imagen sigue siendo demasiado pesada. Selecciona otra imagen o una de menor resolución."
-    );
+export async function uploadVideo(file) {
+  if (!file || !["video/mp4", "video/webm"].includes(file.type)) {
+    throw new Error("Selecciona un video MP4 o WebM.");
   }
-
-  return blobToDataUrl(blob);
+  const body = new FormData();
+  body.append("kind", "video");
+  body.append("file", file, file.name);
+  const response = await fetch("/api/media", { method: "POST", credentials: "include", body });
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(result.error || "No se pudo guardar el video.");
+  return result;
 }

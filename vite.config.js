@@ -4,5 +4,6 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev
 export default defineConfig({
   plugins: [react()],
-  base: '/das-green-react/', // 👈 AGREGA ESTA LÍNEA EXACTAMENTE ASÍ
+  base: process.env.VITE_BASE_PATH || '/',
+  server: { proxy: { '/api': 'http://localhost:3001' } },
 })

@@ -1,7 +1,4 @@
 import { useEffect, useState } from "react";
-import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
-
-import { db } from "../config/firebase";
 import FieldInput, { emptyValue } from "./FieldInput";
 import ImageUploadField from "./ImageUploadField";
 import "./editor-kit.css";
@@ -49,11 +46,10 @@ export default function ListEditor({
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    getDoc(doc(db, "content", sectionId))
-      .then((snap) => {
-        const remote = snap.exists()
-          ? snap.data().items
-          : null;
+    fetch(`/api/content/${encodeURIComponent(sectionId)}`)
+      .then((response) => (response.ok ? response.json() : null))
+      .then((result) => {
+        const remote = result?.content?.items;
 
         if (!Array.isArray(remote)) return;
 
@@ -141,10 +137,11 @@ export default function ListEditor({
     });
 
     try {
-      await setDoc(doc(db, "content", sectionId), {
-        items,
-        updatedAt: serverTimestamp(),
+      const response = await fetch(`/api/content/${encodeURIComponent(sectionId)}`, {
+        method: "PUT", headers: { "Content-Type": "application/json" },
+        credentials: "include", body: JSON.stringify({ items }),
       });
+      if (!response.ok) throw new Error("No se pudo guardar el contenido.");
 
       setStatus({
         type: "ok",

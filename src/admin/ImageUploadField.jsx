@@ -41,6 +41,10 @@ export default function ImageUploadField({
         </div>
       )}
 
+      {value && (
+        <button type="button" className="admin-remove" onClick={() => onChange("")}>Quitar imagen al guardar</button>
+      )}
+
       <input
         id={id}
         type="file"

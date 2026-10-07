@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../config/firebase";
 import "./admin.css";
 
 export default function Login() {
@@ -14,7 +12,11 @@ export default function Login() {
     e.preventDefault();
     setError("");
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const response = await fetch("/api/auth/login", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        credentials: "include", body: JSON.stringify({ email, password }),
+      });
+      if (!response.ok) throw new Error("No autorizado");
       navigate("/admin");
     } catch {
       setError("Correo o contraseña incorrectos.");
