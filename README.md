@@ -11,12 +11,13 @@ Sitio en React/Vite con API Node.js/Express, MySQL y almacenamiento local privad
 ## Desarrollo local
 
 1. Instala dependencias con `npm install`.
-2. Copia `.env.example` a `.env` y configura MySQL, un `JWT_SECRET` aleatorio (32 caracteres como mínimo), `ADMIN_EMAIL` y `ADMIN_PASSWORD` (12 caracteres como mínimo).
-3. Crea la base de datos y el usuario con permisos solo sobre esa base. `server/sql/schema.sql` crea la base/tablas de referencia; el backend también asegura la creación de tablas al arrancar.
-4. Crea la cuenta de administración con `npm run admin:create`.
-5. Arranca backend y frontend con `npm run dev:full` (API en `localhost:3001`, Vite en `localhost:5173`).
+2. Desde una terminal interactiva, ejecuta `npm run db:setup-local`. El script solicita la contraseña de `root` de forma oculta, crea la base/tablas y un usuario limitado para la app, genera el acceso inicial del panel y guarda la configuración local en `.env`.
+3. Arranca backend y frontend con `npm run dev:full` (API en `localhost:3001`, Vite en `localhost:5173`).
+
+También se puede usar `server/sql/schema.sql` para crear manualmente las tablas. En ese caso, hay que copiar `.env.example` a `.env`, completar MySQL/JWT y crear el administrador con `npm run admin:create`.
 
 No subas `.env`, credenciales, dumps de base de datos ni `private-media/` al repositorio.
+Cada compañera debe ejecutar el setup en su propia computadora; esto crea una base local independiente, no una base compartida.
 
 ## Modelo de persistencia
 
@@ -26,6 +27,7 @@ No subas `.env`, credenciales, dumps de base de datos ni `private-media/` al rep
 - Los bytes se guardan debajo de `MEDIA_ROOT`, fuera del directorio público. La API requiere una sesión de administrador para subir o borrar. Las rutas de lectura de medios sirven contenido publicado a la landing con `Content-Type` correcto.
 - Las imágenes se convierten/optimizan a WebP en el servidor. Los videos permitidos son MP4 y WebM. El límite inicial de video es 150 MiB y se configura con `MAX_VIDEO_BYTES`.
 - Al guardar contenido que deja de referenciar un medio, el backend elimina el archivo si ningún otro documento lo utiliza.
+- Para subir el video del hero, inicia sesión en el dashboard, abre **Inicio · Hero** y selecciona un archivo MP4 o WebM en **Video de fondo**. Guarda los cambios para publicarlo. El archivo se guarda automáticamente bajo `MEDIA_ROOT` (por defecto `private-media/`); no hay que copiarlo manualmente. El límite inicial es 150 MiB y se cambia con `MAX_VIDEO_BYTES`.
 
 ## Producción en Hostinger VPS
 

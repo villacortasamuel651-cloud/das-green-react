@@ -7,7 +7,36 @@ import bcrypt from "bcryptjs";
 import mysql from "mysql2/promise";
 
 if (process.env.NODE_ENV === "production") throw new Error("Este script solo configura una base MySQL local.");
-if (!process.env.MYSQL_ROOT_PASSWORD) throw new Error("Define MYSQL_ROOT_PASSWORD solo para esta ejecución.");
+
+async function promptForRootPassword() {
+  if (!process.stdin.isTTY || !process.stdin.setRawMode) {
+    throw new Error("Define MYSQL_ROOT_PASSWORD en el entorno o ejecuta este comando desde una terminal interactiva.");
+  }
+  process.stdout.write("Contraseña de root MySQL (entrada oculta): ");
+  process.stdin.setEncoding("utf8");
+  process.stdin.setRawMode(true);
+  process.stdin.resume();
+  return new Promise((resolve, reject) => {
+    let password = "";
+    const finish = (error) => {
+      process.stdin.setRawMode(false);
+      process.stdin.pause();
+      process.stdin.removeListener("data", onData);
+      process.stdout.write("\n");
+      if (error) reject(error);
+      else resolve(password);
+    };
+    const onData = (chunk) => {
+      for (const character of chunk) {
+        if (character === "\u0003") return finish(new Error("Configuración cancelada."));
+        if (character === "\r" || character === "\n") return finish();
+        if (character === "\u007f" || character === "\b") password = password.slice(0, -1);
+        else password += character;
+      }
+    };
+    process.stdin.on("data", onData);
+  });
+}
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const envPath = path.join(projectRoot, ".env");
@@ -18,7 +47,7 @@ const appPassword = crypto.randomBytes(32).toString("hex");
 const jwtSecret = crypto.randomBytes(48).toString("base64url");
 const adminEmail = process.env.ADMIN_EMAIL || "admin@dasgreen.local";
 const adminPassword = process.env.ADMIN_PASSWORD || crypto.randomBytes(18).toString("base64url");
-const rootPassword = process.env.MYSQL_ROOT_PASSWORD;
+const rootPassword = process.env.MYSQL_ROOT_PASSWORD || await promptForRootPassword();
 const root = await mysql.createConnection({ host, port: 3306, user: "root", password: rootPassword });
 
 try {
