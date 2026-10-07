@@ -16,10 +16,11 @@ export default function Login() {
         method: "POST", headers: { "Content-Type": "application/json" },
         credentials: "include", body: JSON.stringify({ email, password }),
       });
-      if (!response.ok) throw new Error("No autorizado");
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.error || "No se pudo iniciar sesión.");
       navigate("/admin");
-    } catch {
-      setError("Correo o contraseña incorrectos.");
+    } catch (err) {
+      setError(err.message || "No se pudo iniciar sesión.");
     }
   };
 

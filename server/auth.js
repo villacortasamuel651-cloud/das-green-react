@@ -40,7 +40,15 @@ export function requireAdmin(req, res, next) {
 export function requireSameOrigin(req, res, next) {
   const expected = process.env.APP_ORIGIN;
   const origin = req.get("origin");
-  if (origin && expected && origin !== expected) {
+  const isLocalDevelopmentOrigin = process.env.NODE_ENV !== "production" && (() => {
+    try {
+      const parsed = new URL(origin);
+      return parsed.protocol === "http:" && ["localhost", "127.0.0.1"].includes(parsed.hostname);
+    } catch {
+      return false;
+    }
+  })();
+  if (origin && expected && origin !== expected && !isLocalDevelopmentOrigin) {
     return res.status(403).json({ error: "Origen no permitido." });
   }
   return next();
