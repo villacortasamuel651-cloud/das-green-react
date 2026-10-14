@@ -3,16 +3,14 @@ import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import bcrypt from "bcryptjs";
 import cookieParser from "cookie-parser";
 import express from "express";
-import { rateLimit } from "express-rate-limit";
 import { fileTypeFromFile } from "file-type";
-import jwt from "jsonwebtoken";
 import multer from "multer";
 import sharp from "sharp";
 import { initializeDatabase, pool } from "./db.js";
-import { clearAdminCookie, requireAdmin, requireSameOrigin, setAdminCookie } from "./auth.js";
+import { requireAdmin, requireSameOrigin } from "./auth.js";
+import { createAuthRouter } from "./auth-routes.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const mediaRoot = path.resolve(process.env.MEDIA_ROOT || path.join(__dirname, "..", "private-media"));
@@ -20,7 +18,6 @@ const app = express();
 const port = Number(process.env.PORT || 3001);
 const imageLimit = 15 * 1024 * 1024;
 const videoLimit = Number(process.env.MAX_VIDEO_BYTES || 150 * 1024 * 1024);
-const loginLimit = rateLimit({ windowMs: 15 * 60 * 1000, limit: 10, standardHeaders: "draft-8", legacyHeaders: false });
 
 const requiredEnvironment = ["MYSQL_USER", "MYSQL_PASSWORD", "MYSQL_DATABASE", "JWT_SECRET", "APP_ORIGIN"];
 const missingEnvironment = requiredEnvironment.filter((key) => !process.env[key]);
@@ -39,31 +36,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post("/api/auth/login", loginLimit, requireSameOrigin, async (req, res, next) => {
-  try {
-    const email = String(req.body?.email || "").trim().toLowerCase();
-    const password = String(req.body?.password || "");
-    const [rows] = await pool.execute("SELECT id, email, password_hash FROM admins WHERE email = ? LIMIT 1", [email]);
-    const admin = rows[0];
-    const valid = admin && await bcrypt.compare(password, admin.password_hash);
-    if (!valid) return res.status(401).json({ error: "Correo o contraseña incorrectos." });
-    setAdminCookie(res, admin);
-    return res.json({ admin: { email: admin.email } });
-  } catch (error) { return next(error); }
-});
-
-app.get("/api/auth/me", (req, res) => {
-  try {
-    const token = req.cookies?.das_admin;
-    const admin = jwt.verify(token || "", process.env.JWT_SECRET, { issuer: "das-green", audience: "das-green-admin" });
-    return res.json({ admin: { email: admin.email } });
-  } catch { clearAdminCookie(res); return res.status(401).json({ error: "No hay una sesión activa." }); }
-});
-
-app.post("/api/auth/logout", requireSameOrigin, (_req, res) => {
-  clearAdminCookie(res);
-  res.status(204).end();
-});
+app.use("/api/auth", createAuthRouter({ database: pool }));
 
 app.get("/api/content/:id", async (req, res, next) => {
   try {

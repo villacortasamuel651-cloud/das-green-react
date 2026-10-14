@@ -1,0 +1,113 @@
+name: dazgreen
+
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+services:
+  web:
+    image: ${WEB_IMAGE:-dazgreen-web:local}
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 128m
+    cpus: 0.25
+    pids_limit: 100
+    logging: *logging
+    networks:
+      proxy:
+        aliases: [dazgreen-web]
+
+  api:
+    image: ${API_IMAGE:-dazgreen-api:local}
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    restart: unless-stopped
+    init: true
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 768m
+    cpus: 0.75
+    pids_limit: 150
+    logging: *logging
+    environment:
+      NODE_ENV: production
+      PORT: "3001"
+      APP_ORIGIN: https://dazgreen.com
+      JWT_SECRET: ${JWT_SECRET:?Define JWT_SECRET en el archivo privado de producción}
+      MYSQL_HOST: db
+      MYSQL_PORT: "3306"
+      MYSQL_USER: ${MYSQL_USER:-das_green_app}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Define MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-das_green}
+      MEDIA_ROOT: /var/lib/dazgreen/media
+      MAX_VIDEO_BYTES: ${MAX_VIDEO_BYTES:-157286400}
+    volumes:
+      - media_data:/var/lib/dazgreen/media
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      proxy:
+        aliases: [dazgreen-api]
+      database:
+
+  db:
+    image: mysql:8.4
+    restart: unless-stopped
+    mem_limit: 1536m
+    cpus: 0.75
+    pids_limit: 200
+    logging: *logging
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Define MYSQL_ROOT_PASSWORD solo para db}
+      MYSQL_USER: ${MYSQL_USER:-das_green_app}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Define MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-das_green}
+    command:
+      - --mysqlx=0
+      - --innodb-buffer-pool-size=512M
+      - --max-connections=50
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./deploy/mysql/10-limit-user.sh:/docker-entrypoint-initdb.d/10-limit-user.sh:ro
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - 'MYSQL_PWD="$${MYSQL_PASSWORD}" mysql --protocol=TCP -h 127.0.0.1 -u "$${MYSQL_USER}" -D "$${MYSQL_DATABASE}" -Nse "SELECT 1" >/dev/null'
+      interval: 10s
+      timeout: 5s
+      start_period: 60s
+      retries: 12
+    networks:
+      - database
+
+networks:
+  proxy:
+    external: true
+    name: ${PROXY_NETWORK:-dazgreen_edge}
+  database:
+    internal: true
+
+# Se crean explícitamente tras revisar la BD existente; Compose no crea otra por accidente.
+volumes:
+  mysql_data:
+    external: true
+    name: ${MYSQL_VOLUME_NAME:-dazgreen_mysql_data}
+  media_data:
+    external: true
+    name: ${MEDIA_VOLUME_NAME:-dazgreen_media_data}

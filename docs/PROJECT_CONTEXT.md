@@ -9,7 +9,7 @@ Sitio personal/profesional de Diego Alberto Sorrilla Green, construido como SPA 
 ## Stack y arquitectura actual
 
 - React 19, Vite 8, React Router 7, Node.js/Express 5, MySQL/MariaDB, Oxlint y Sharp.
-- La API del proyecto está en `server/`; el frontend usa `/api` y Vite proxya ese prefijo a `localhost:3000` durante desarrollo.
+- La API del proyecto está en `server/`; el frontend usa `/api` y Vite proxya ese prefijo a `localhost:3001` durante desarrollo.
 - MySQL contiene `content` (payload JSON), `media` (metadata de archivos) y `admins` (hash de contraseña). El backend crea las tablas al iniciar.
 - Las sesiones administrativas usan JWT en cookie `httpOnly`, `sameSite=strict`, `secure` en producción, bcrypt para contraseñas y limitador de intentos de inicio de sesión.
 - Medios binarios se escriben en `MEDIA_ROOT`, fuera del web root en producción. La API publica URL controlada de lectura; escritura/borrado exige sesión de administrador.
@@ -21,6 +21,8 @@ Sitio personal/profesional de Diego Alberto Sorrilla Green, construido como SPA 
 
 - `src/main.jsx` monta `HashRouter` y define `/login`, `/admin` y un fallback a `App`.
 - `ProtectedRoute` consulta `/api/auth/me`. `Login` llama `/api/auth/login`; el dashboard llama `/api/auth/logout`.
+- La implementación de autenticación está en `server/auth-routes.js`, montada por `server/index.js`. El limitador cuenta fallos, conserva 10 por IP/15 minutos y devuelve JSON español; las respuestas de sesión no se cachean. `src/utils/auth.js` comparte la validación de respuestas y confirma la cookie antes de navegar al panel. El login deshabilita envíos mientras carga.
+- `npm run admin:check` es un diagnóstico de solo lectura en la conexión de la API: cuenta administradores y, si recibe `ADMIN_EMAIL`/`ADMIN_PASSWORD`, verifica cuenta/hash sin imprimir secretos. Las variables administrativas no crean cuentas por sí solas. `npm test` contiene regresiones de acceso sin conexión a producción.
 - El backend aplica la autorización; los controles visuales del frontend no sustituyen las comprobaciones de `/api`.
 
 ## Landing y contenido
@@ -40,11 +42,13 @@ Los valores base viven en `src/data/*.js`. `useContent(id)` intenta leer `/api/c
 
 `src/admin/Dashboard.jsx` registra editores en una constante `EDITORS` y presenta navegación responsive en sidebar, más barra superior. El contenedor/estilos están en `src/admin/admin.css`; controles reutilizables en `editor-kit.css`.
 
+Actualización de UX/UI del 14 de octubre de 2026: el panel abre un resumen con accesos y búsqueda de las 12 secciones; mantiene sus editores y contratos actuales. La sidebar usa un menú desplegable en móvil y la página pública se abre en una pestaña nueva. Login tiene presentación propia, control para mostrar/ocultar contraseña y estados de envío/error. El navbar público incluye «Administración» junto al logo, enlazado a `/login` mediante React Router. Los detalles y la verificación están en `docs/ADMIN_UI_UPDATE.md`.
+
 Secciones registradas:
 
 | Clave | Editor | Contrato principal | Operaciones actuales |
 | --- | --- | --- | --- |
-| `hero` | `HeroEditor` | `content/hero` con `slides[]` | editar textos y guardar; no crear/eliminar slides ni subir medios |
+| `hero` | `HeroEditor` | objeto `content/hero` con textos, `videoUrl` y `videoMimeType`; compatibilidad con primer `slides[]` antiguo | editar textos, cargar MP4/WebM, quitar video y guardar |
 | `about` | `AboutEditor` | objeto `content/about` | editar campos e imagen |
 | `timeline` | `TimelineEditor` | objeto `timelineSection` y lista `timeline` | editar encabezado; agregar, borrar, reordenar etapas |
 | `experience` | `ExperienceEditor` | objeto `experienceSection` y lista `experience` | editar encabezado; agregar, borrar, reordenar áreas |
@@ -65,7 +69,7 @@ Los encabezados para Trayectoria, Experiencia, Exposiciones, Galería, Noticias 
 - `ListEditor` persiste arrays completos `items`; la eliminación se confirma y se aplica en memoria hasta guardar; mover sube/baja el orden.
 - `HeroEditor` implementa por separado su propia carga/guardado y no maneja estado de carga/error de lectura de forma visible.
 - `useContent` usa una lectura HTTP puntual, no una suscripción en tiempo real.
-- Los errores de lectura en hooks/editores compartidos se silencian; el usuario puede ver el fallback sin distinguir que Firebase falló.
+- Los errores de lectura en hooks/editores compartidos se silencian; el usuario puede ver el fallback sin distinguir que la API falló.
 - Los IDs de registros locales se sintetizan como `local-{índice}`. Los nuevos reciben IDs temporales aleatorios `new-*`; preservar esos IDs es clave para reconciliar cambios locales con listas base.
 
 ## Medios y seguridad
@@ -75,6 +79,8 @@ Los encabezados para Trayectoria, Experiencia, Exposiciones, Galería, Noticias 
 La carga y el borrado requieren autenticación del administrador. La entrega de medios referenciados es pública para que los visitantes puedan ver imágenes/video, pero se sirve desde una ruta API controlada y el directorio físico no debe exponerse como estático. `PUT /api/content/:id` rechaza data URLs. Si se reemplaza o quita un medio y queda sin referencias, backend elimina el archivo y su metadata.
 
 ## Migración de datos pendiente
+
+Actualización del 14 de octubre de 2026: `npm run content:seed` permite cargar los 18 documentos locales de los editores sin sobrescribir documentos existentes; convierte imágenes a WebP privado y conserva IDs `local-N`. Tiene `--preview` sin conexión y `--dry-run` de solo lectura. Requiere Node 24 en su entorno preparado. No importa Firestore ni crea/cambia administradores. `deploy/update.sh` prepara respaldo y actualización de web/API, conservando MySQL y Caddy; por instrucción del usuario, no aplica el seeder durante el despliegue. Procedimiento: `docs/DEPLOY_UPDATE.md`.
 
 El frontend ya no consulta Firebase. No se exportaron/importaron documentos que pudieran existir únicamente en Firestore y no se comprobó una instancia MySQL local en esta sesión. Los datos `src/data` son fallbacks en el frontend, pero no se crean automáticamente como filas MySQL. Antes de retirar Firestore o de desplegar, exportar los documentos remotos y migrarlos a la tabla `content`; si esos documentos contienen data URLs, migrar primero cada archivo al storage nuevo y reemplazar por la URL nueva.
 
@@ -89,6 +95,8 @@ El frontend ya no consulta Firebase. No se exportaron/importaron documentos que 
 7. Queda pendiente verificar conexión real a MySQL y migrar datos históricos; no se encontraron credenciales MySQL configuradas (no se leen ni registran secretos del `.env`).
 
 ## Plan técnico recomendado para la siguiente etapa
+
+Actualización del 10 de octubre de 2026: la auditoría de despliegue y los archivos Docker/Compose/Caddy/GitLab están en `DAZGREEN_AUDITORIA_DESPLIEGUE.md`. No se verificó una conexión MySQL real ni se desplegó; el motor Docker local no estaba activo. Node 24 es el runtime preparado. El informe nuevo contiene los resultados actuales y el procedimiento de preservación de datos; los resultados de la auditoría anterior arriba son históricos.
 
 1. Configurar MySQL real en entorno local/VPS y probar migraciones de esquema/conexión.
 2. Exportar contenido Firestore, convertir cualquier data URL antiguo a archivos WebP y migrar los payloads a MySQL antes de dar por cerrada la retirada de Firebase.

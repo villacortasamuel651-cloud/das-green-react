@@ -13,8 +13,12 @@ export default function Footer() {
         </p>
 
         <div className="socials">
-          <a href={site.linkedinUrl} aria-label="LinkedIn">in</a>
-          <a href={site.xUrl} aria-label="X">X</a>
+          {site.linkedinUrl && (
+            <a href={site.linkedinUrl} target="_blank" rel="noopener noreferrer" aria-label={`LinkedIn de ${site.name} (se abre en una pestaña nueva)`}>in</a>
+          )}
+          {site.xUrl && (
+            <a href={site.xUrl} target="_blank" rel="noopener noreferrer" aria-label={`X de ${site.name} (se abre en una pestaña nueva)`}>X</a>
+          )}
           <a href={`mailto:${site.email}`} aria-label="Correo">✉</a>
         </div>
       </div>

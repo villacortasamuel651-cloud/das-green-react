@@ -6,7 +6,7 @@ import Reveal from "../../ui/Reveal/Reveal";
 import "./Contact.css";
 
 const info = [
-  { icon: "in", title: "LinkedIn", value: site.linkedin, href: site.linkedinUrl },
+  ...(site.linkedinUrl ? [{ icon: "in", title: "LinkedIn", value: site.linkedin, href: site.linkedinUrl, external: true }] : []),
   { icon: "✉", title: "Correo", value: site.email, href: `mailto:${site.email}` },
   { icon: "♧", title: "Ubicación", value: site.location },
 ];
@@ -29,8 +29,15 @@ export default function Contact() {
             {info.map((item) => {
               const Tag = item.href ? "a" : "div";
               return (
-                <Tag className="contact-item" href={item.href} key={item.title}>
-                  <div className="contact-icon">{item.icon}</div>
+                <Tag
+                  className="contact-item"
+                  href={item.href}
+                  key={item.title}
+                  target={item.external ? "_blank" : undefined}
+                  rel={item.external ? "noopener noreferrer" : undefined}
+                  aria-label={item.external ? `${item.title} de ${site.name} (se abre en una pestaña nueva)` : undefined}
+                >
+                  <div className="contact-icon" aria-hidden="true">{item.icon}</div>
                   <div>
                     <strong>{item.title}</strong>
                     <span>{item.value}</span>

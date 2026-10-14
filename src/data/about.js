@@ -6,7 +6,7 @@ export const about = {
   label: "SOBRE MÍ",
   title: "Una trayectoria construida sobre experiencia, visión y resultados.",
   paragraphs: [
-    "Soy Diego Alberto Sorrilla Green, un profesional apasionado por el liderazgo, la gestión y la innovación.",
+    "Soy Diego Alberto Zorrilla Green, un profesional apasionado por el liderazgo, la gestión y la innovación.",
     "A lo largo de mi trayectoria he tenido la oportunidad de liderar proyectos, formar equipos y generar soluciones que buscan crear un impacto positivo.",
   ],
   stats: [

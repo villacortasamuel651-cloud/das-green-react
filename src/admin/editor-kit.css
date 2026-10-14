@@ -17,10 +17,10 @@
   gap: 10px;
   margin: 16px 0 6px;
   padding: 11px 14px;
-  border: 1px solid #cfd8d6;
+  border: 1px solid var(--admin-line);
   border-radius: 10px;
   background: #fff;
-  color: var(--blue, #0b2638);
+  color: var(--admin-text);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -50,15 +50,15 @@
 
 /* Botones secundarios: subir, bajar, agregar */
 .admin-page .admin-item-actions button {
-  border: 1px solid #cfd8d6;
+  border: 1px solid var(--admin-line);
   background: #fff;
-  color: var(--blue, #0b2638);
+  color: var(--admin-text);
 }
 
 .admin-page .admin-item-actions button:hover:not(:disabled) {
-  border-color: var(--green, #1f8f73);
+  border-color: var(--admin-green);
   background: #eaf6f2;
-  color: var(--green, #1f8f73);
+  color: var(--admin-green);
 }
 
 /* Eliminar */
@@ -90,15 +90,15 @@
 
 /* Botón principal (Guardar cambios) */
 .admin-page .admin-card > .admin-item-actions button:last-of-type {
-  border-color: var(--green, #1f8f73);
-  background: var(--green, #1f8f73);
+  border-color: var(--admin-green);
+  background: var(--admin-green);
   color: #fff;
   padding: 10px 24px;
 }
 
 .admin-page .admin-card > .admin-item-actions button:last-of-type:hover:not(:disabled) {
-  border-color: var(--green-light, #27a987);
-  background: var(--green-light, #27a987);
+  border-color: var(--admin-green-bright);
+  background: var(--admin-green-bright);
   color: #fff;
 }
 

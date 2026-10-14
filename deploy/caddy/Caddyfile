@@ -1,0 +1,2 @@
+# Plantilla para un proxy central nuevo. Si ya hay uno, integrar solo sites/dazgreen.caddy.
+import /etc/caddy/sites/*.caddy

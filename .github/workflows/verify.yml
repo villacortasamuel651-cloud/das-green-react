@@ -1,0 +1,33 @@
+name: Verificar aplicación
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      VITE_SITE_URL: https://dazgreen.com
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+      - run: npm run content:seed -- --preview
+      - run: bash -n deploy/update.sh
+  containers:
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -f Dockerfile.api -t dazgreen-api:verify .
+      - run: docker build -f Dockerfile.web -t dazgreen-web:verify .
+      - run: docker run --rm --network none dazgreen-api:verify node server/scripts/seed-content.js --preview
+      - run: docker run --rm --network none dazgreen-web:verify -t

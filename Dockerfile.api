@@ -1,0 +1,24 @@
+# syntax=docker/dockerfile:1
+FROM node:24-bookworm-slim AS dependencies
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev --no-audit --no-fund && npm cache clean --force
+
+FROM node:24-bookworm-slim AS runtime
+ENV NODE_ENV=production
+WORKDIR /app
+COPY --from=dependencies --chown=node:node /app/node_modules ./node_modules
+COPY --chown=node:node package.json package-lock.json ./
+COPY --chown=node:node server ./server
+COPY --chown=node:node src/data ./src/data
+COPY --chown=node:node src/config/site.js ./src/config/site.js
+COPY --chown=node:node src/utils/content.js ./src/utils/content.js
+COPY --chown=node:node src/assets/images ./src/assets/images
+COPY --chown=node:node public/images ./public/images
+COPY --chown=node:node deploy/api-healthcheck.mjs ./deploy/api-healthcheck.mjs
+RUN mkdir -p /var/lib/dazgreen/media && chown node:node /var/lib/dazgreen/media && chmod 0750 /var/lib/dazgreen/media
+USER node
+EXPOSE 3001
+HEALTHCHECK --interval=30s --timeout=7s --start-period=30s --retries=3 \
+  CMD ["node", "deploy/api-healthcheck.mjs"]
+CMD ["node", "server/index.js"]

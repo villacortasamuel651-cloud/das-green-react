@@ -1,0 +1,84 @@
+stages: [verify, images, deploy]
+
+verify:
+  stage: verify
+  image: node:24-bookworm-slim
+  variables:
+    VITE_SITE_URL: https://dazgreen.com
+  script:
+    - npm ci --no-audit --no-fund
+    - npm run lint
+    - npm test
+    - npm run build
+    - node --check server/index.js
+    - node --check server/db.js
+    - node --check server/auth.js
+    - node --check server/auth-routes.js
+    - node --check deploy/api-healthcheck.mjs
+
+images:
+  stage: images
+  image: docker:29-cli
+  services:
+    - name: docker:29-dind
+      alias: docker
+  variables:
+    DOCKER_HOST: tcp://docker:2376
+    DOCKER_TLS_CERTDIR: /certs
+    DOCKER_TLS_VERIFY: "1"
+    DOCKER_CERT_PATH: /certs/client
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_REF_PROTECTED == "true"'
+  before_script:
+    - printf '%s' "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
+  script:
+    - |
+      export JWT_SECRET=ci-validation-only-0000000000000000000000
+      export MYSQL_PASSWORD=ci-validation-only
+      export MYSQL_ROOT_PASSWORD=ci-validation-only-root
+      docker compose --env-file deploy/.env.example config --quiet
+      docker compose -f deploy/caddy/compose.yaml config --quiet
+    - docker build --pull -f Dockerfile.web -t "$CI_REGISTRY_IMAGE/web:$CI_COMMIT_SHA" .
+    - docker build --pull -f Dockerfile.api -t "$CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA" .
+    - docker run --rm "$CI_REGISTRY_IMAGE/web:$CI_COMMIT_SHA" -t
+    - docker run --rm -i --entrypoint bash mysql:8.4 -n < deploy/mysql/10-limit-user.sh
+    - docker run --rm -i --entrypoint sh alpine:3 -n < deploy/release.sh
+    - |
+      caddy_check=$(docker create caddy:2-alpine validate --config /etc/caddy/Caddyfile --adapter caddyfile)
+      docker cp deploy/caddy/. "$caddy_check:/etc/caddy/"
+      docker start --attach "$caddy_check"
+      test "$(docker inspect --format '{{.State.ExitCode}}' "$caddy_check")" -eq 0
+      docker rm "$caddy_check"
+    - docker push "$CI_REGISTRY_IMAGE/web:$CI_COMMIT_SHA"
+    - docker push "$CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA"
+
+deploy_production:
+  stage: deploy
+  image: alpine:3
+  resource_group: dazgreen-production
+  environment:
+    name: production
+    url: https://dazgreen.com
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_REF_PROTECTED == "true"'
+      when: manual
+  before_script:
+    - apk add --no-cache openssh-client
+    - test -s "$SSH_PRIVATE_KEY" && test -s "$SSH_KNOWN_HOSTS"
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - cp "$SSH_PRIVATE_KEY" ~/.ssh/id_ed25519
+    - chmod 600 ~/.ssh/id_ed25519
+    - cp "$SSH_KNOWN_HOSTS" ~/.ssh/known_hosts
+    - chmod 600 ~/.ssh/known_hosts
+    - |
+      case "$DEPLOY_HOST" in ''|*[!a-zA-Z0-9.-]*) exit 1 ;; esac
+      case "$DEPLOY_USER" in ''|*[!a-zA-Z0-9_-]*) exit 1 ;; esac
+      case "$CI_REGISTRY_IMAGE" in ''|*[!a-zA-Z0-9_./:-]*) exit 1 ;; esac
+      case "$CI_COMMIT_SHA" in ''|*[!a-f0-9]*) exit 1 ;; esac
+      test "${#CI_COMMIT_SHA}" -eq 40
+  script:
+    - tar -czf deployment.tgz compose.yaml deploy/release.sh deploy/mysql/10-limit-user.sh
+    - ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$DEPLOY_USER@$DEPLOY_HOST" "umask 077; mkdir -p /opt/dazgreen/releases/$CI_COMMIT_SHA"
+    - scp -o BatchMode=yes -o StrictHostKeyChecking=yes deployment.tgz "$DEPLOY_USER@$DEPLOY_HOST:/opt/dazgreen/releases/$CI_COMMIT_SHA/deployment.tgz"
+    - ssh -o BatchMode=yes -o StrictHostKeyChecking=yes "$DEPLOY_USER@$DEPLOY_HOST" "cd /opt/dazgreen/releases/$CI_COMMIT_SHA && tar -xzf deployment.tgz && sh deploy/release.sh '$CI_REGISTRY_IMAGE' '$CI_COMMIT_SHA'"

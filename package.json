@@ -8,10 +8,13 @@
     "server": "node server/index.js",
     "dev:full": "concurrently \"npm:server\" \"npm:dev\"",
     "db:setup-local": "node server/scripts/setup-local-db.js",
+    "content:seed": "node server/scripts/seed-content.js",
     "build": "vite build",
     "lint": "oxlint",
+    "test": "node --test tests/*.test.mjs",
     "preview": "vite preview",
-    "admin:create": "node server/scripts/create-admin.js"
+    "admin:create": "node server/scripts/create-admin.js",
+    "admin:check": "node server/scripts/check-admin.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",

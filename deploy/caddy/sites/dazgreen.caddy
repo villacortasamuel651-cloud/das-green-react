@@ -1,0 +1,25 @@
+www.dazgreen.com {
+    redir https://dazgreen.com{uri} permanent
+}
+
+dazgreen.com {
+    encode zstd gzip
+    header {
+        X-Content-Type-Options nosniff
+        X-Frame-Options DENY
+        Referrer-Policy strict-origin-when-cross-origin
+        -Server
+    }
+
+    @api path /api /api/*
+    handle @api {
+        # Conservar /api. Un solo proxy coincide con trust proxy=1 en Express.
+        reverse_proxy dazgreen-api:3001 {
+            header_up X-Forwarded-For {remote_host}
+        }
+    }
+
+    handle {
+        reverse_proxy dazgreen-web:8080
+    }
+}
