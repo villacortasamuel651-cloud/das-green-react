@@ -8,18 +8,6 @@ import "./Booking.css";
 export default function Booking() {
   const { section, card } = mergeBooking(useContent("booking"));
 
-  const handleClick = (e) => {
-    e.preventDefault();
-
-    // Sin enlace de calendario todavía: lleva al formulario de contacto
-    if (!site.calendarUrl) {
-      document.getElementById("contacto")?.scrollIntoView({ behavior: "smooth" });
-      return;
-    }
-
-    window.open(site.calendarUrl, "_blank", "noopener,noreferrer");
-  };
-
   return (
     <section className="booking-section" id="agendar">
       <div className="container booking-container">
@@ -30,7 +18,12 @@ export default function Booking() {
 
           <p>{section.text}</p>
 
-          <Button href="#" onClick={handleClick}>
+          <Button
+            href={site.calendarUrl || "#contacto"}
+            target={site.calendarUrl ? "_blank" : undefined}
+            rel={site.calendarUrl ? "noopener noreferrer" : undefined}
+            aria-label={site.calendarUrl ? `${section.button} (se abre en una pestaña nueva)` : undefined}
+          >
             {section.button}
           </Button>
 

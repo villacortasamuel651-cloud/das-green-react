@@ -31,6 +31,8 @@ Sitio personal/profesional de Diego Alberto Sorrilla Green, construido como SPA 
 
 Los valores base viven en `src/data/*.js`. `useContent(id)` intenta leer `/api/content/{id}` desde MySQL y conserva los datos locales cuando no hay documento o falla la lectura. `useListContent` mezcla las listas remotas con metadatos locales por id.
 
+El 14 de octubre de 2026, el usuario proporcionó el código de una página de reservas de Google Calendar. Su URL se configuró en `src/config/site.js`: «Agendar reunión» abre esa página en una pestaña nueva mediante un enlace nativo accesible. Si se deja la URL vacía, enlaza a Contacto. No requiere API keys, tokens ni cambios en MySQL; el editor de Reunión conserva su contrato de textos y detalles. Se conserva el botón y diseño propios de la web; el script de botón emergente de Google no se carga.
+
 ### Estado actual del hero
 
 - `src/data/hero.js` define el contenido base de un hero único y deja `videoUrl` vacío.
