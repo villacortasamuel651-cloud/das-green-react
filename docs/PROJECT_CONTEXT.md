@@ -1,4 +1,4 @@
-# Contexto maestro del proyecto DAS Green
+# Contexto maestro del proyecto DAZ Green
 
 Mapa actualizado tras la auditoría y la primera etapa de migración a MySQL/almacenamiento privado. Fecha: 7 de octubre de 2026.
 
@@ -44,7 +44,7 @@ El 14 de octubre de 2026, el usuario proporcionó el código de una página de r
 
 `src/admin/Dashboard.jsx` registra editores en una constante `EDITORS` y presenta navegación responsive en sidebar, más barra superior. El contenedor/estilos están en `src/admin/admin.css`; controles reutilizables en `editor-kit.css`.
 
-Actualización de UX/UI del 14 de octubre de 2026: el panel abre un resumen con accesos y búsqueda de las 12 secciones; mantiene sus editores y contratos actuales. La sidebar usa un menú desplegable en móvil y la página pública se abre en una pestaña nueva. Login tiene presentación propia, control para mostrar/ocultar contraseña y estados de envío/error. El navbar público incluye «Administración» junto al logo, enlazado a `/login` mediante React Router. Los detalles y la verificación están en `docs/ADMIN_UI_UPDATE.md`.
+Actualización de UX/UI: el panel abre un resumen con accesos y búsqueda de las 12 secciones; mantiene sus editores y contratos actuales. La sidebar usa un menú desplegable en móvil y la página pública se abre en una pestaña nueva. Login tiene presentación propia, control para mostrar/ocultar contraseña y estados de envío/error. El logo DAZ GREEN del navbar público enlaza a `/login` mediante React Router. Los detalles están en `docs/ADMIN_UI_UPDATE.md`.
 
 Secciones registradas:
 
@@ -64,6 +64,12 @@ Secciones registradas:
 | `contact` | `ContactEditor` | objeto `contact` | editar textos |
 
 Los encabezados para Trayectoria, Experiencia, Exposiciones, Galería, Noticias y Cursos se guardan en documentos separados con sufijo `Section`; por tanto, el menú del dashboard no equivale exactamente a la lista de documentos.
+
+### Trayectoria y áreas de experiencia
+
+- La trayectoria se presenta como hitos cronológicos con iconografía Lucide, línea de progreso y tarjetas responsivas. Los valores de icono se guardan como claves semánticas (`presentation`, `graduation`, `analytics`, `award`); emojis heredados se normalizan al editar.
+- Las áreas de experiencia usan iconos Lucide consistentes y tarjetas con animación ligera al aparecer y al pasar el puntero. Ambas secciones respetan `prefers-reduced-motion`.
+- Las opciones y equivalencias de iconos se mantienen en `src/data/iconOptions.js`; presentación en `src/components/sections/Timeline` y `Experience`.
 
 ## Persistencia y API
 

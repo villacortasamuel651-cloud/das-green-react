@@ -19,7 +19,7 @@ const pick = (item, fields) => ({
   ...Object.fromEntries(
     fields.map((f) => [
       f.key,
-      item[f.key] ?? emptyValue(f),
+      f.normalize ? f.normalize(item[f.key] ?? emptyValue(f)) : item[f.key] ?? emptyValue(f),
     ])
   ),
 });

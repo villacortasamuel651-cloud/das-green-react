@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { navLinks } from "../../../data/navigation";
 import useScrollSpy from "../../../hooks/useScrollSpy";
 import Logo from "../../ui/Logo/Logo";
@@ -30,8 +29,7 @@ export default function Navbar() {
     <header className={`navbar ${scrolled ? "navbar-scrolled" : ""}`}>
       <div className="nav-container">
         <div className="nav-brand-group">
-          <Logo />
-          <Link to="/login" className="nav-admin-link" onClick={() => setOpen(false)}>Administración</Link>
+          <Logo to="/login" onClick={() => setOpen(false)} />
         </div>
 
         <nav id="public-navigation" aria-label="Navegación principal" className={`nav-menu ${open ? "show" : ""}`}>

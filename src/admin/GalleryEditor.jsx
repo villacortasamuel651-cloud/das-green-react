@@ -17,6 +17,7 @@ const FIELDS = [
       folder: "gallery",
       maxWidth: 1600,
       aspect: 4 / 3,
+      recommendation: "4:3 · 1200 × 900 px",
     },
   },
   {

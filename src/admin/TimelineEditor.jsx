@@ -1,6 +1,7 @@
 import ObjectEditor from "./ObjectEditor";
 import ListEditor from "./ListEditor";
 import { timeline, timelineSection } from "../data/timeline";
+import { normalizeTimelineIcon, timelineIconOptions } from "../data/iconOptions";
 
 const HEADER_FIELDS = [
   { key: "label", label: "Etiqueta superior" },
@@ -12,7 +13,7 @@ const FIELDS = [
   { key: "year", label: "Años (ej. 2015 – 2018)" },
   { key: "role", label: "Cargo / Empresa" },
   { key: "description", label: "Descripción", type: "textarea" },
-  { key: "icon", label: "Icono (emoji o símbolo)" },
+  { key: "icon", label: "Icono de trayectoria", type: "select", options: timelineIconOptions, normalize: normalizeTimelineIcon },
 ];
 
 export default function TimelineEditor() {

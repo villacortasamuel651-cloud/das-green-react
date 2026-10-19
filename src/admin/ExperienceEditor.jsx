@@ -1,6 +1,7 @@
 import ObjectEditor from "./ObjectEditor";
 import ListEditor from "./ListEditor";
 import { experience, experienceSection } from "../data/experience";
+import { experienceIconOptions, normalizeExperienceIcon } from "../data/iconOptions";
 
 const HEADER_FIELDS = [
   { key: "label", label: "Etiqueta superior" },
@@ -11,7 +12,7 @@ const HEADER_FIELDS = [
 const FIELDS = [
   { key: "title", label: "Título" },
   { key: "description", label: "Descripción", type: "textarea" },
-  { key: "icon", label: "Icono (emoji o símbolo)" },
+  { key: "icon", label: "Icono del área", type: "select", options: experienceIconOptions, normalize: normalizeExperienceIcon },
 ];
 
 export default function ExperienceEditor() {

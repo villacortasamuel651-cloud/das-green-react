@@ -3,7 +3,7 @@
 
 export const emptyValue = (field) => {
   if (field.type === "checkbox") return false;
-  if (field.type === "select") return field.options?.[0] ?? "";
+  if (field.type === "select") return field.options?.[0]?.value ?? field.options?.[0] ?? "";
   return "";
 };
 
@@ -29,11 +29,15 @@ export default function FieldInput({ field, value, onChange, id }) {
 
       {type === "select" && (
         <select id={id} value={value} onChange={(e) => onChange(e.target.value)}>
-          {options.map((option) => (
-            <option key={option} value={option}>
-              {option}
+          {options.map((option) => {
+            const optionValue = typeof option === "string" ? option : option.value;
+            const optionLabel = typeof option === "string" ? option : option.label;
+            return (
+            <option key={optionValue} value={optionValue}>
+              {optionLabel}
             </option>
-          ))}
+            );
+          })}
         </select>
       )}
 

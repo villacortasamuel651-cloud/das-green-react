@@ -17,6 +17,7 @@ const FIELDS = [
       folder: "news",
       maxWidth: 1600,
       aspect: 16 / 10,
+      recommendation: "16:10 · 1600 × 1000 px",
     },
   },
   { key: "date", label: "Fecha o etiqueta" },

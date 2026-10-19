@@ -39,20 +39,6 @@
   margin-right: 24px;
 }
 
-.nav-admin-link {
-  padding: 8px 10px;
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  border-radius: 6px;
-  color: #d8e1e5;
-  font-size: 11px;
-  transition: color 0.2s, background 0.2s;
-}
-
-.nav-admin-link:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-}
-
 .nav-menu a {
   font-size: 13px;
   color: #d8e1e5;
@@ -168,6 +154,5 @@
 
 @media (max-width: 480px) {
   .nav-container { width: calc(100% - 32px); }
-  .nav-brand-group { gap: 12px; margin-right: 12px; }
-  .nav-admin-link { padding: 8px; font-size: 10px; }
+  .nav-brand-group { margin-right: 12px; }
 }

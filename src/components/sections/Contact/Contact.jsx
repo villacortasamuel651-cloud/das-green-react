@@ -5,15 +5,14 @@ import useContactForm from "../../../hooks/useContactForm";
 import Reveal from "../../ui/Reveal/Reveal";
 import "./Contact.css";
 
-const info = [
-  ...(site.linkedinUrl ? [{ icon: "in", title: "LinkedIn", value: site.linkedin, href: site.linkedinUrl, external: true }] : []),
-  { icon: "✉", title: "Correo", value: site.email, href: `mailto:${site.email}` },
-  { icon: "♧", title: "Ubicación", value: site.location },
-];
-
 export default function Contact() {
   const { status, errorMessage, submit } = useContactForm();
   const c = { ...contactSection, ...(useContent("contact") ?? {}) };
+  const info = [
+    ...(c.linkedinUrl ? [{ icon: "in", title: "LinkedIn", value: c.linkedin, href: c.linkedinUrl, external: true }] : []),
+    { icon: "✉", title: "Correo", value: c.email || site.email, href: `mailto:${c.email || site.email}` },
+    { icon: "♧", title: "Ubicación", value: c.location || site.location },
+  ];
 
   return (
     <section className="contact" id="contacto">
@@ -126,7 +125,7 @@ export default function Contact() {
 
             {status === "error" && (
   <p className="form-status error" role="alert">
-    No pudimos enviar tu mensaje. Inténtalo nuevamente o escríbenos a {site.email}.
+            No pudimos enviar tu mensaje. Inténtalo nuevamente o escríbenos a {c.email || site.email}.
     {errorMessage && <small style={{ display: "block", marginTop: 6 }}>Detalle: {errorMessage}</small>}
   </p>
 )}

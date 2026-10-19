@@ -1,7 +1,7 @@
 export const site = {
   name: "Diego Alberto Zorrilla Green",
   role: "CEO",
-  brand: { main: "DAS", sub: "GREEN" },
+  brand: { main: "DAZ", sub: "GREEN" },
   email: "correo@ejemplo.com",
   linkedin: "/diegozorrillagreen",
   linkedinUrl: "https://www.linkedin.com/in/diegozorrillagreen/",
@@ -12,4 +12,5 @@ export const site = {
   whatsappMessage: "Hola, me gustaría conversar sobre una posible colaboración.",
   quote: "El verdadero liderazgo no se trata de estar al frente, sino de construir un mejor camino para los demás.",
   formEndpoint: "https://formspree.io/f/xljdvpje", 
+  legalName: "DAZ GREEN", // razón social o nombre del titular, si es distinto
 };

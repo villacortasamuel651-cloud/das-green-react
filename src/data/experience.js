@@ -5,9 +5,9 @@ export const experienceSection = {
 };
 
 export const experience = [
-  { icon: "👥", title: "Liderazgo", description: "Formación de equipos y gestión del talento." },
-  { icon: "◫", title: "Gestión", description: "Optimización de procesos y recursos." },
-  { icon: "↗", title: "Estrategia", description: "Planeamiento y toma de decisiones." },
-  { icon: "💡", title: "Innovación", description: "Soluciones tecnológicas y mejora continua." },
-  { icon: "♧", title: "Desarrollo", description: "Proyectos y crecimiento sostenible." },
+  { icon: "leadership", title: "Liderazgo", description: "Formación de equipos y gestión del talento." },
+  { icon: "operations", title: "Gestión", description: "Optimización de procesos y recursos." },
+  { icon: "strategy", title: "Estrategia", description: "Planeamiento y toma de decisiones." },
+  { icon: "innovation", title: "Innovación", description: "Soluciones tecnológicas y mejora continua." },
+  { icon: "growth", title: "Desarrollo", description: "Proyectos y crecimiento sostenible." },
 ];

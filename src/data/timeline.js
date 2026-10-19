@@ -5,8 +5,8 @@ export const timelineSection = {
 };
 
 export const timeline = [
-  { icon: "💼", year: "2015 – 2018", role: "Cargo / Empresa", description: "Descripción breve del puesto y logros alcanzados." },
-  { icon: "🎓", year: "2018 – 2021", role: "Cargo / Empresa", description: "Descripción breve del puesto y logros alcanzados." },
-  { icon: "📊", year: "2021 – 2024", role: "Cargo / Empresa", description: "Descripción breve del puesto y logros alcanzados." },
-  { icon: "★", year: "2024 – Actualidad", role: "Cargo / Empresa", description: "Descripción breve del puesto y logros alcanzados." },
+  { icon: "presentation", year: "2015 – 2018", role: "Cargo / Empresa", description: "Descripción breve del puesto y logros alcanzados." },
+  { icon: "graduation", year: "2018 – 2021", role: "Cargo / Empresa", description: "Descripción breve del puesto y logros alcanzados." },
+  { icon: "analytics", year: "2021 – 2024", role: "Cargo / Empresa", description: "Descripción breve del puesto y logros alcanzados." },
+  { icon: "award", year: "2024 – Actualidad", role: "Cargo / Empresa", description: "Descripción breve del puesto y logros alcanzados." },
 ];

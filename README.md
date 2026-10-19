@@ -1,4 +1,4 @@
-# DAS Green
+# DAZ Green
 
 Sitio en React/Vite con API Node.js/Express, MySQL y almacenamiento local privado de medios.
 

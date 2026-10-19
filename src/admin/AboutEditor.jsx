@@ -10,6 +10,7 @@ const FIELDS = [
       folder: "about",
       maxWidth: 1200,
       aspect: 4 / 5,
+      recommendation: "4:5 · 1200 × 1500 px",
     },
   },
   { key: "label", label: "Etiqueta superior" },
